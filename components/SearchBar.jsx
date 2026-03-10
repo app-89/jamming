@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-function SearchBar() {
+function SearchBar({ onSearch }) {
   const [searchTerm, setSearchTerm] = useState("");
 
   const handleSearch = () => {
-    console.log("Searching for:", searchTerm);
+    onSearch(searchTerm);
   };
 
   return (

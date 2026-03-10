@@ -1,22 +1,20 @@
 import React from 'react';
+import React, { useState } from 'react';
 import SearchBar from "./components/SearchBar";
+import searchAPI from "./components/searchAPI";
+import SearchResults from "./components/SearchResults";
+import Playlist from "./components/Playlist";
 
 function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [playlistName, setPlaylistName] = useState("My Playlist");
   const [playlistTracks, setPlaylistTracks] = useState([]);
 
-  return (
-    <div>
-      <h1>Spotify Playlist Builder</h1>
-      <SearchBar />
-      <SearchResults tracks={searchResults} />
-      <Playlist
-        name={playlistName}
-        tracks={playlistTracks}
-      />
-    </div>
-  );
+  
+const search = async (term) => {
+  const results = await searchAPI.search(term);
+  setSearchResults(results);
+};
 
 const addTrack = (track) => {
   if (playlistTracks.find(t => t.id === track.id)) return;
@@ -34,6 +32,20 @@ const removeTrack = (track) => {
   setPlaylistName(name);
 };
 
+  return (
+    <div>
+      <h1>Spotify Playlist Builder</h1>
+      <SearchBar onSearch={search}/>
+      <SearchResults tracks={searchResults} onAdd={addTrack} />
+      <Playlist
+        name={playlistName}
+        tracks={playlistTracks}
+        onRemove={removeTrack}
+        onNameChange={updatePlaylistName}
+      />
+    </div>
+  );
+
 }
 
 
@@ -45,10 +57,29 @@ function mapTracks(tracks) {
     uri: track.uri
   }));
 }
-const response = await fetch(url);
-const data = await response.json();
 
-const formattedTracks = mapTracks(data.items);
+  var state = generateRandomString(16);
+  var scope = 'user-read-private user-read-email';
 
-setSearchResults(formattedTracks);
+  res.redirect('https://accounts.spotify.com/authorize?' +
+    querystring.stringify({
+      response_type: 'code',
+      client_id: client_id,
+      scope: scope,
+      redirect_uri: redirect_uri,
+      state: state
+    }));
+
+const Spotify = {
+  async search(term) {
+
+  },
+
+  async savePlaylist(name, trackUris) {
+
+  }
+};
+
+export { Spotify };
 export default App;
+
