@@ -18,7 +18,9 @@ Built as a portfolio project for the Codecademy Full Stack Developer course, jam
 -Potential improvements:
 -
 -Search by pressing Enter
+
 -Exclude songs already in the playlist from search results
+
 -Save the playlist while the user works on it but before exporting it to Spotify
 
 -How to use jamming:
